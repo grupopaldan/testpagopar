@@ -28,21 +28,22 @@ $data = [
     ]
 ];
 
-$ch = curl_init('https://190.104.29.94/api/v2/transactions');
+// ✅ Usamos el dominio oficial, NO IP directa
+$ch = curl_init('https://api.pagopar.com/api/v2/transactions');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json',
-    'Accept: application/json',
-    'Host: apipagopar.com'
+    'Accept: application/json'
 ]);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); // Seguro en Railway
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 $response = curl_exec($ch);
 $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $curl_error = curl_error($ch);
 curl_close($ch);
 
+// Mostrar resultado
 echo "<h2>Respuesta PagoPar:</h2>";
 echo "<pre>";
 echo "HTTP Status: $http_status\n";
